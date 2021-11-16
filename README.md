@@ -5,7 +5,7 @@ Installing the testing library:
 
 Installing the browsers:
 
-`$ npx playwright install`
+`$ npm i -D playwright`
 
 Working with typescript:
 
