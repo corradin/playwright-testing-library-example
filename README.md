@@ -38,3 +38,43 @@ The easiest way is to create a playwright.config.ts file and add the trace confi
 After a test has failed, run: 
 
 `$ npx playwright show-trace trace.zip`
+
+# Cross browser
+
+Once a playwright config file is in place, it is even easier to add browsers, by using projects.
+
+```typescript
+projects: [
+    {
+      name: 'Chrome Stable',
+      use: {
+        browserName: 'chromium',
+        // Test against Chrome Stable channel.
+        channel: 'chrome',
+      },
+    },
+    {
+      name: 'Desktop Safari',
+      use: {
+        browserName: 'webkit',
+        viewport: { width: 1200, height: 750 },
+      }
+    },
+    // Test against mobile viewports.
+    {
+      name: 'Mobile Chrome',
+      use: devices['Pixel 5'],
+    },
+    {
+      name: 'Mobile Safari',
+      use: devices['iPhone 12'],
+    },
+    {
+      name: 'Desktop Firefox',
+      use: {
+        browserName: 'firefox',
+        viewport: { width: 800, height: 600 },
+      }
+    },
+  ],
+```
