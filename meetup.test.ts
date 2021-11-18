@@ -20,9 +20,7 @@ test('should contain header text', async ({ page }) => {
 });
 
 // Locale
-test('should contain header text based on geo location', async ({
-  browser,
-}) => {
+test('should contain header text based on locale', async ({ browser }) => {
   const context = await browser.newContext({
     locale: 'nl-NL',
   });
@@ -33,12 +31,7 @@ test('should contain header text based on geo location', async ({
 });
 
 // Selector chaining and debugging.
-test('should return search result based on location', async ({ browser }) => {
-  const context = await browser.newContext({
-    geolocation: { longitude: 52.21139, latitude: 5.18488 },
-    permissions: ['geolocation'],
-  });
-  const page = await context.newPage();
+test('should return search result based on location', async ({ page }) => {
   await page.goto('https://www.meetup.com');
   await page.fill(`[placeholder='Search for "tennis"']`, 'cypress');
   await page.fill(`[placeholder="Location"]`, 'Hilversum, NL');
@@ -57,13 +50,8 @@ test('should return search result based on location', async ({ browser }) => {
 
 // Auto-wait Waiting for spinners (network request), set slowMo to 0
 test('should return search result based on location with auto wait', async ({
-  browser,
+  page,
 }) => {
-  const context = await browser.newContext({
-    geolocation: { longitude: 52.21139, latitude: 5.18488 },
-    permissions: ['geolocation'],
-  });
-  const page = await context.newPage();
   await page.goto('https://www.meetup.com');
   await page.fill(`[placeholder='Search for "tennis"']`, 'cypress');
   await page.fill(`[placeholder="Location"]`, 'Hilversum, NL');
