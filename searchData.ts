@@ -11,10 +11,4 @@ const test = base.extend<SearchData>({
   location: 'Hilversum',
 });
 
-// Now, this "test" can be used in multiple test files, and each of them will get the fixtures.
 export default test;
-
-// export const cypressHilversum: SearchData = {
-//   search: 'Cypress',
-//   location: 'Hilversum',
-// };
