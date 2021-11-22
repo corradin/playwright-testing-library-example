@@ -1,4 +1,6 @@
 import { test, expect } from '@playwright/test';
+import testWithFixture from './searchData';
+
 test.use({
   headless: false,
   launchOptions: { slowMo: 0 },
@@ -49,6 +51,16 @@ test('should return search result based on location', async ({ page }) => {
     'Cypress Meetup - Documenting your Cypress custom commands',
   );
 });
+
+// Fixture
+testWithFixture(
+  'should return search result based on location with fixtures',
+  async ({ page, search, location }) => {
+    await page.goto('https://www.meetup.com');
+    await page.fill(`[placeholder='Search for "tennis"']`, search);
+    await page.fill(`[placeholder="Location"]`, location);
+  },
+);
 
 // Auto-wait Waiting for spinners (network request), set slowMo to 0
 test('should return search result based on location with auto wait', async ({
