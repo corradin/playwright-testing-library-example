@@ -78,3 +78,8 @@ projects: [
     },
   ],
 ```
+
+## HTML Reporter
+To view the test results in HTML do the following:
+
+`$ npx playwright test --reporter=html`

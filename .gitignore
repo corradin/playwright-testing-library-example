@@ -89,3 +89,6 @@ typings/
 
 # Traces
 test-results
+
+# reports
+playwright-report
