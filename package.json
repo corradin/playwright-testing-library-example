@@ -16,7 +16,7 @@
   },
   "scripts": {
     "test": "playwright test",
-    "test:login": "playwright test login.test.ts"
+    "test:login": "playwright test meetup-login.test.ts"
   },
   "repository": {
     "type": "git",
