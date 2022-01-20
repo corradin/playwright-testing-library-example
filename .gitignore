@@ -92,3 +92,6 @@ test-results
 
 # reports
 playwright-report
+
+# storage state
+storage-state
