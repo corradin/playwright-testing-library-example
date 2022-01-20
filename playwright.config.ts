@@ -5,8 +5,10 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const config: PlaywrightTestConfig = {
+  globalSetup: './global-setup',
   use: {
     trace: 'retain-on-failure',
+    storageState: 'storage-state/storageState.json',
   },
   projects: [
     {
