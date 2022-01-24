@@ -5,8 +5,7 @@ async function login(
   username: string,
   password: string,
 ): Promise<void> {
-  const loginUrl = 'https://www.meetup.com/login';
-  await page.goto(loginUrl);
+  await page.goto('https://www.meetup.com/login');
   await page.locator('id=email').fill(username);
   await page.locator('id=current-password').fill(password);
 
