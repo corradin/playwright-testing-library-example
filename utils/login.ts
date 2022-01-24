@@ -7,12 +7,12 @@ async function login(
 ): Promise<void> {
   const loginUrl = 'https://www.meetup.com/login';
   await page.goto(loginUrl);
-  await page.fill('id=email', username);
-  await page.fill('id=current-password', password);
+  await page.locator('id=email').fill(username);
+  await page.locator('id=current-password').fill(password);
 
   await Promise.all([
     page.waitForNavigation(),
-    page.click('button[type=submit] >> "Log in"'),
+    page.locator('button[type=submit] >> "Log in"').click(),
   ]);
 }
 
