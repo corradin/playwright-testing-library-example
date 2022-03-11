@@ -5,6 +5,7 @@ test.use({
   headless: false,
   launchOptions: { slowMo: 0 },
   viewport: { width: 1920, height: 1080 },
+  storageState: undefined,
 });
 
 // A page property
