@@ -19,7 +19,7 @@ test('should contain homepage title', async ({ page }) => {
 test('should contain header text', async ({ page }) => {
   await page.goto('https://www.meetup.com');
   const headerText = await page.locator('h1').textContent();
-  expect(headerText).toBe('Dive in! There are so many things to do on Meetup');
+  expect(headerText).toBe('Celebrating 20 years of real connections on Meetup');
 });
 
 // Locale (This fails on Safari and could be a bug on meetup or in Playwright)
