@@ -12,11 +12,9 @@ const config: PlaywrightTestConfig = {
   },
   projects: [
     {
-      name: 'Chrome Stable',
+      name: 'Chrome',
       use: {
         browserName: 'chromium',
-        // Test against Chrome Stable channel.
-        channel: 'chrome',
       },
     },
     {
