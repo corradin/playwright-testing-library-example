@@ -28,17 +28,17 @@ test('should return search result based on location', async ({ page }) => {
   // Only needed for firefox
   await page.mouse.wheel(0, 200);
   await page.fill(`[placeholder='Search for "tennis"']`, 'cypress');
-  await page.fill(`[placeholder="Location"]`, 'Hilversum, NL');
+  await page.fill(`[placeholder="Neighborhood or City or zip code"]`, 'Hilversum, NL');
   await page.click('text="Hilversum, Netherlands"');
 
   await Promise.all([page.waitForNavigation(), page.click('[value="Search"]')]);
 
   const firstResultTitleElement = await page.locator(
-    '.max-w-narrow >> :nth-match(div, 1) >> p:has-text("Cypress Meetup")',
+    '.max-w-narrow >> :nth-match(div, 1) >> p:has-text("Playwright Vs. Cypress")',
   );
   const title = await firstResultTitleElement.textContent();
   expect(title).toBe(
-    'Cypress Meetup - Documenting your Cypress custom commands',
+    'Playwright Vs. Cypress - The Sequel',
   );
 });
 
@@ -48,7 +48,7 @@ testWithFixture(
   async ({ page, search, location }) => {
     await page.goto('https://www.meetup.com');
     await page.fill(`[placeholder='Search for "tennis"']`, search);
-    await page.fill(`[placeholder="Location"]`, location);
+    await page.fill(`[placeholder="Neighborhood or City or zip code"]`, location);
   },
 );
 
@@ -61,7 +61,7 @@ test('should return search result based on location with auto wait', async ({
   await page.mouse.wheel(0, 200);
 
   await page.fill(`[placeholder='Search for "tennis"']`, 'cypress');
-  await page.fill(`[placeholder="Location"]`, 'Hilversum, NL');
+  await page.fill(`[placeholder="Neighborhood or City or zip code"]`, 'Hilversum, NL');
   // When you have a spinner for a network request
   // const response = await page.waitForResponse('https://www.meetup.com/gql');
   // const responseData = await response.json();
@@ -79,11 +79,11 @@ test('should return search result based on location with auto wait', async ({
   await Promise.all([page.waitForNavigation(), page.click('[value="Search"]')]);
 
   const firstResultTitleElement = await page.locator(
-    '.max-w-narrow >> :nth-match(div, 1) >> p:has-text("Cypress Meetup")',
+    '.max-w-narrow >> :nth-match(div, 1) >> p:has-text("Playwright Vs. Cypress")',
   );
   const title = await firstResultTitleElement.textContent();
   expect(title).toBe(
-    'Cypress Meetup - Documenting your Cypress custom commands',
+    'Playwright Vs. Cypress - The Sequel',
   );
 });
 
@@ -94,9 +94,9 @@ test('should match search screenshot', async ({ page }) => {
   await page.mouse.wheel(0, 200);
 
   await page.fill(`[placeholder='Search for "tennis"']`, 'cypress');
-  await page.fill(`[placeholder="Location"]`, 'Hilversum, NL');
+  await page.fill(`[placeholder="Neighborhood or City or zip code"]`, 'Hilversum, NL');
 
   // await page.screenshot({ path: 'search.png' });
 
-  expect(await page.screenshot()).toMatchSnapshot('search.png');
+  await expect(page).toHaveScreenshot();
 });
