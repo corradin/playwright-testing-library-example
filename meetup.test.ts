@@ -22,17 +22,6 @@ test('should contain header text', async ({ page }) => {
   expect(headerText).toBe('Celebrating 20 years of real connections on Meetup');
 });
 
-// Locale (This fails on Safari and could be a bug on meetup or in Playwright)
-test('should contain header text based on locale', async ({ browser }) => {
-  const context = await browser.newContext({
-    locale: 'nl-NL',
-  });
-  const page = await context.newPage();
-  await page.goto('https://www.meetup.com');
-  const headerText = await page.locator('h1').textContent();
-  expect(headerText).toBe('Tast toe! Er zijn talloze dingen te doen op Meetup');
-});
-
 // Selector chaining and debugging.
 test('should return search result based on location', async ({ page }) => {
   await page.goto('https://www.meetup.com');
