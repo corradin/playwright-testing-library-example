@@ -95,3 +95,6 @@ playwright-report
 
 # storage state
 storage-state
+/test-results/
+/playwright-report/
+/playwright/.cache/
