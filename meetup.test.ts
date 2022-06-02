@@ -8,6 +8,9 @@ test.use({
   storageState: undefined,
 });
 
+// Parallel testing
+test.describe.configure({ mode: 'parallel' });
+
 // A page property
 test('should contain homepage title', async ({ page }) => {
   await page.goto('https://www.meetup.com');
@@ -28,7 +31,10 @@ test('should return search result based on location', async ({ page }) => {
   // Only needed for firefox
   await page.mouse.wheel(0, 200);
   await page.fill(`[placeholder='Search for "tennis"']`, 'cypress');
-  await page.fill(`[placeholder="Neighborhood or City or zip code"]`, 'Hilversum, NL');
+  await page.fill(
+    `[placeholder="Neighborhood or City or zip code"]`,
+    'Hilversum, NL',
+  );
   await page.click('text="Hilversum, Netherlands"');
 
   await Promise.all([page.waitForNavigation(), page.click('[value="Search"]')]);
@@ -37,9 +43,7 @@ test('should return search result based on location', async ({ page }) => {
     '.max-w-narrow >> :nth-match(div, 1) >> p:has-text("Playwright Vs. Cypress")',
   );
   const title = await firstResultTitleElement.textContent();
-  expect(title).toBe(
-    'Playwright Vs. Cypress - The Sequel',
-  );
+  expect(title).toBe('Playwright Vs. Cypress - The Sequel');
 });
 
 // Fixture
@@ -48,7 +52,10 @@ testWithFixture(
   async ({ page, search, location }) => {
     await page.goto('https://www.meetup.com');
     await page.fill(`[placeholder='Search for "tennis"']`, search);
-    await page.fill(`[placeholder="Neighborhood or City or zip code"]`, location);
+    await page.fill(
+      `[placeholder="Neighborhood or City or zip code"]`,
+      location,
+    );
   },
 );
 
@@ -61,7 +68,10 @@ test('should return search result based on location with auto wait', async ({
   await page.mouse.wheel(0, 200);
 
   await page.fill(`[placeholder='Search for "tennis"']`, 'cypress');
-  await page.fill(`[placeholder="Neighborhood or City or zip code"]`, 'Hilversum, NL');
+  await page.fill(
+    `[placeholder="Neighborhood or City or zip code"]`,
+    'Hilversum, NL',
+  );
   // When you have a spinner for a network request
   // const response = await page.waitForResponse('https://www.meetup.com/gql');
   // const responseData = await response.json();
@@ -82,9 +92,7 @@ test('should return search result based on location with auto wait', async ({
     '.max-w-narrow >> :nth-match(div, 1) >> p:has-text("Playwright Vs. Cypress")',
   );
   const title = await firstResultTitleElement.textContent();
-  expect(title).toBe(
-    'Playwright Vs. Cypress - The Sequel',
-  );
+  expect(title).toBe('Playwright Vs. Cypress - The Sequel');
 });
 
 // Snapshot testing
@@ -94,7 +102,10 @@ test('should match search screenshot', async ({ page }) => {
   await page.mouse.wheel(0, 200);
 
   await page.fill(`[placeholder='Search for "tennis"']`, 'cypress');
-  await page.fill(`[placeholder="Neighborhood or City or zip code"]`, 'Hilversum, NL');
+  await page.fill(
+    `[placeholder="Neighborhood or City or zip code"]`,
+    'Hilversum, NL',
+  );
 
   // await page.screenshot({ path: 'search.png' });
 
