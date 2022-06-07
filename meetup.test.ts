@@ -50,12 +50,14 @@ test('should return search result based on location', async ({ page }) => {
 testWithFixture(
   'should return search result based on location with fixtures',
   async ({ page, search, location }) => {
-    await page.goto('https://www.meetup.com');
-    await page.fill(`[placeholder='Search for "tennis"']`, search);
-    await page.fill(
-      `[placeholder="Neighborhood or City or zip code"]`,
-      location,
-    );
+    for (const searchTerm of search) {
+      await page.goto('https://www.meetup.com');
+      await page.fill(`[placeholder='Search for "tennis"']`, searchTerm);
+      await page.fill(
+        `[placeholder="Neighborhood or City or zip code"]`,
+        location,
+      );
+    }
   },
 );
 
