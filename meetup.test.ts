@@ -114,18 +114,20 @@ test('should match search screenshot', async ({ page }) => {
   await expect(page).toHaveScreenshot();
 });
 
-// Network requests monitoring
+// Network request/response monitoring
 test('should wait for lang network response', async ({ page }) => {
   const [response] = await Promise.all([
     page.waitForResponse('**/en-US*.json'),
     await page.goto('https://www.meetup.com'),
   ]);
   const responseData = await response.json();
-  console.log(responseData);
+  expect(responseData['indexPage.searchIntro.twentyYearstitle']).toBe(
+    'Celebrating 20 years of real connections on Meetup',
+  );
 });
 
 // Network response handling (modification)
-test('should handle lang response', async ({ page }) => {
+test('should return mocked lang response', async ({ page }) => {
   await page.route('**/en-US*.json', async (route) => {
     // Fetch original response.
     const response = await page.request.fetch(route.request());
@@ -141,4 +143,47 @@ test('should handle lang response', async ({ page }) => {
 
   const headerText = await page.locator('h1').textContent();
   expect(headerText).toBe('My new Intro');
+});
+
+// Network request/response monitoring GraphQL
+test('should wait for gql network response', async ({ page }) => {
+  const [request] = await Promise.all([
+    page.waitForRequest(
+      (request) =>
+        request.url().includes('/gql') &&
+        request.postData().includes('locationWithoutInput'),
+    ),
+    await page.goto('https://www.meetup.com/apps'),
+  ]);
+  const response = await request.response();
+  const responseData = await response?.json();
+  console.log(responseData);
+  expect(responseData?.data?.userLocation?.length).toBeGreaterThan(0);
+});
+
+// Network response handling (modification) GraphQl
+test('should return mocked gql response', async ({ context, page }) => {
+  await context.addInitScript(() => delete window.navigator.serviceWorker);
+  await page.route('**/gql', async (route) => {
+    // Fetch original response.
+    const request = await route.request();
+    if (
+      request.url().includes('/gql') &&
+      request.postData().includes('locationWithoutInput')
+    ) {
+      const response = await page.request.post(route.request());
+      const responseData = await response?.json();
+      responseData.data.userLocation[0].city = 'Berlin';
+      responseData.data.userLocation[0].country = 'Germany';
+      route.fulfill({
+        response,
+        body: JSON.stringify(responseData),
+      });
+    } else {
+      route.continue();
+    }
+  });
+  await page.goto('https://www.meetup.com/apps', { waitUntil: 'networkidle' });
+
+  await expect(page.locator('[data-event-label="Location search"]')).toHaveValue('Berlin, GERMANY');
 });
