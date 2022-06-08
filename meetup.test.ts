@@ -46,7 +46,7 @@ test('should return search result based on location', async ({ page }) => {
   expect(title).toBe('Playwright Vs. Cypress - The Sequel');
 });
 
-// Fixture
+// Fixture/parameterized test
 testWithFixture(
   'should return search result based on location with fixtures',
   async ({ page, search, location }) => {
@@ -112,4 +112,33 @@ test('should match search screenshot', async ({ page }) => {
   // await page.screenshot({ path: 'search.png' });
 
   await expect(page).toHaveScreenshot();
+});
+
+// Network requests monitoring
+test('should wait for lang network response', async ({ page }) => {
+  const [response] = await Promise.all([
+    page.waitForResponse('**/en-US*.json'),
+    await page.goto('https://www.meetup.com'),
+  ]);
+  const responseData = await response.json();
+  console.log(responseData);
+});
+
+// Network response handling (modification)
+test('should handle lang response', async ({ page }) => {
+  await page.route('**/en-US*.json', async (route) => {
+    // Fetch original response.
+    const response = await page.request.fetch(route.request());
+    const responseData = await response.json();
+    responseData['indexPage.searchIntro.twentyYearstitle'] = 'My new Intro';
+
+    route.fulfill({
+      response,
+      body: JSON.stringify(responseData),
+    });
+  });
+  await page.goto('https://www.meetup.com');
+
+  const headerText = await page.locator('h1').textContent();
+  expect(headerText).toBe('My new Intro');
 });
