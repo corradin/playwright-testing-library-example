@@ -24,25 +24,23 @@ test('should contain header text', async ({ page }) => {
   await expect(page.locator('h1')).toHaveText('Celebrating 20 years of real connections on Meetup');
 });
 
-// Selector chaining and debugging.
+// Flow and debugging.
 test('should return search result based on location', async ({ page }) => {
   await page.goto('https://www.meetup.com');
   // Only needed for firefox
   await page.mouse.wheel(0, 200);
-  await page.fill(`[placeholder='Search for "tennis"']`, 'cypress');
+  await page.fill(`[placeholder='Search for "tennis"']`, 'Cypress dashboards');
   await page.fill(
     `[placeholder="Neighborhood or City or zip code"]`,
     'Hilversum, NL',
   );
-  await page.click('text="Hilversum, Netherlands"');
+  await page.click('text="Hilversum, NL"');
 
   await Promise.all([page.waitForNavigation(), page.click('[value="Search"]')]);
+  
+  const firstResultTitleElement = await page.locator(`[data-event-label="Event card"] >> nth=0`);
 
-  const firstResultTitleElement = await page.locator(
-    '.max-w-narrow >> :nth-match(div, 1) >> p:has-text("Playwright Vs. Cypress")',
-  );
-  const title = await firstResultTitleElement.textContent();
-  expect(title).toBe('Playwright Vs. Cypress - The Sequel');
+  await expect(firstResultTitleElement.locator('h2')).toHaveText(`pro's / cons using Cypress dashboards`);
 });
 
 // Fixture/parameterized test
