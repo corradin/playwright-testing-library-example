@@ -15,14 +15,13 @@ test.describe.configure({ mode: 'parallel' });
 test('should contain homepage title', async ({ page }) => {
   await page.goto('https://www.meetup.com');
   const title = await page.title();
-  expect(title).toBe('Meetup - We are what we do');
+  await expect(title).toBe('Meetup - We are what we do');
 });
 
 // The first Selector
 test('should contain header text', async ({ page }) => {
   await page.goto('https://www.meetup.com');
-  const headerText = await page.locator('h1').textContent();
-  expect(headerText).toBe('Celebrating 20 years of real connections on Meetup');
+  await expect(page.locator('h1')).toHaveText('Celebrating 20 years of real connections on Meetup');
 });
 
 // Selector chaining and debugging.
@@ -98,21 +97,23 @@ test('should return search result based on location with auto wait', async ({
 });
 
 // Snapshot testing
-test('should match search screenshot', async ({ page }) => {
-  await page.goto('https://www.meetup.com');
-  // Only needed for firefox
-  await page.mouse.wheel(0, 200);
+// test('should match search screenshot', async ({ page }) => {
+//   await page.goto('https://www.meetup.com');
+//   // Only needed for firefox
+//   await page.mouse.wheel(0, 200);
 
-  await page.fill(`[placeholder='Search for "tennis"']`, 'cypress');
-  await page.fill(
-    `[placeholder="Neighborhood or City or zip code"]`,
-    'Hilversum, NL',
-  );
+//   await page.fill(`[placeholder='Search for "tennis"']`, 'cypress');
+//   await page.fill(
+//     `[placeholder="Neighborhood or City or zip code"]`,
+//     'Hilversum, NL',
+//   );
 
-  // await page.screenshot({ path: 'search.png' });
+//   // await page.screenshot({ path: 'search.png' });
 
-  await expect(page).toHaveScreenshot();
-});
+//   await expect(page).toHaveScreenshot();
+// });
+
+
 
 // Network request/response monitoring
 test('should wait for lang network response', async ({ page }) => {
@@ -145,6 +146,18 @@ test('should return mocked lang response', async ({ page }) => {
   expect(headerText).toBe('My new Intro');
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
 // Network request/response monitoring GraphQL
 test('should wait for gql network response', async ({ page }) => {
   const [request] = await Promise.all([
@@ -157,18 +170,15 @@ test('should wait for gql network response', async ({ page }) => {
   ]);
   const response = await request.response();
   const responseData = await response?.json();
-  console.log(responseData);
   expect(responseData?.data?.userLocation?.length).toBeGreaterThan(0);
 });
 
 // Network response handling (modification) GraphQl
-test('should return mocked gql response', async ({ context, page }) => {
-  await context.addInitScript(() => delete window.navigator.serviceWorker);
+test('should return mocked gql response', async ({ page }) => {
   await page.route('**/gql', async (route) => {
     // Fetch original response.
     const request = await route.request();
     if (
-      request.url().includes('/gql') &&
       request.postData().includes('locationWithoutInput')
     ) {
       const response = await page.request.post(route.request());
@@ -183,7 +193,7 @@ test('should return mocked gql response', async ({ context, page }) => {
       route.continue();
     }
   });
-  await page.goto('https://www.meetup.com/apps', { waitUntil: 'networkidle' });
+  await page.goto('https://www.meetup.com/apps');
 
   await expect(page.locator('[data-event-label="Location search"]')).toHaveValue('Berlin, GERMANY');
 });
