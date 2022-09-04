@@ -9,6 +9,7 @@ const config: PlaywrightTestConfig = {
   use: {
     trace: 'retain-on-failure',
     storageState: 'storage-state/storageState.json',
+    headless: false,
   },
   projects: [
     {
