@@ -17,7 +17,7 @@
   },
   "scripts": {
     "test": "playwright test meetup.test.ts --headed --project=\"Chrome\"",
-    "test:login": "cross-env DO_LOGIN=true playwright test meetup-login.test.ts --headed --project=\"Chrome Stable\""
+    "test:login": "cross-env DO_LOGIN=true playwright test meetup-login.test.ts --headed --project=\"Chrome\""
   },
   "repository": {
     "type": "git",
