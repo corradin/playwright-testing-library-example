@@ -1,9 +1,17 @@
 version: 2
+registries:
+  npm-npmjs:
+    type: npm-registry
+    url: https://registry.npmjs.org
+    token: ${{secrets.DEPENDABOT_NPM_TOKEN}}
+    replaces-base: true
 updates:
   # Enable version updates for npm
   - package-ecosystem: "npm"
     # Look for `package.json` and `lock` files in the `root` directory
     directory: "/"
+    registries:
+      - npm-npmjs
     # Check the npm registry for updates every day (weekdays)
     schedule:
       interval: "daily"
