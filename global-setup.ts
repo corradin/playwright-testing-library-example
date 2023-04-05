@@ -3,11 +3,11 @@ import login from './utils/login';
 
 const username = process.env.MEETUP_USERNAME ?? '';
 const password = process.env.MEETUP_PASSWORD ?? '';
-const doLogin = process.env.DO_LOGIN ?? '';
+const runGlobalSetup = process.env.RUN_GLOBAL_SETUP ?? '';
 
 
 async function globalSetup(config: FullConfig): Promise<void> {
-  if(doLogin === 'true') {
+  if(runGlobalSetup === 'true') {
     const { storageState } = config.projects[0].use;
     const browser = await chromium.launch({ headless: false });
     const page = await browser.newPage();
