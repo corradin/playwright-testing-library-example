@@ -4,19 +4,27 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+export const storageStatePath = 'storage-state/storageState.json';
+
 const config: PlaywrightTestConfig = {
-  globalSetup: './global-setup',
+  // globalSetup: './global-setup',
   use: {
     trace: 'retain-on-failure',
-    storageState: 'storage-state/storageState.json',
+    // storageState: storageStatePath,
     headless: false,
   },
   projects: [
     {
+      name: 'setup',
+      testMatch: 'login.setup.ts',
+    },
+    {
       name: 'Chrome',
       use: {
         browserName: 'chromium',
+        storageState: storageStatePath,
       },
+      dependencies: ['setup'],
     },
     {
       name: 'Desktop Safari',
