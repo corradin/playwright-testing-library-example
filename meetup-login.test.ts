@@ -7,5 +7,5 @@ test('Navigate to notifications', async ({ page }) => {
 
 test('Navigate to payment methods', async ({ page }) => {
     await page.goto('https://www.meetup.com/account/payment-methods');
-    await expect(page.locator(`"You don't have any saved cards for your organizer subscription"`).first()).toBeVisible();
+    await expect(page.getByText("You don't have any saved cards for your organizer subscription")).toBeVisible();
 });
