@@ -7,10 +7,8 @@ dotenv.config();
 export const storageStatePath = 'storage-state/storageState.json';
 
 const config: PlaywrightTestConfig = {
-  // globalSetup: './global-setup',
   use: {
     trace: 'retain-on-failure',
-    // storageState: storageStatePath,
     headless: false,
   },
   projects: [
