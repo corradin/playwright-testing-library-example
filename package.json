@@ -16,7 +16,8 @@
   },
   "scripts": {
     "test": "playwright test meetup.test.ts --headed --project=\"Chrome\"",
-    "test:login": "cross-env RUN_GLOBAL_SETUP=true playwright test meetup-login.test.ts --headed --project=\"Chrome\""
+    "test:login-global-setup": "cross-env RUN_GLOBAL_SETUP=true playwright test -c playwright-global-setup.config.ts meetup-login.test.ts --headed --project=\"Chrome\"",
+    "test:login": "playwright test meetup-login.test.ts --headed --project=\"Chrome\""
   },
   "repository": {
     "type": "git",
