@@ -8,6 +8,7 @@ export const storageStatePath = 'storage-state/storageState.json';
 
 const config: PlaywrightTestConfig = {
   globalSetup: './global-setup',
+  reporter: 'html',
   use: {
     trace: 'retain-on-failure',
     storageState: storageStatePath,

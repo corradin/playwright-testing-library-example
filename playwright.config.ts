@@ -7,6 +7,7 @@ dotenv.config();
 export const storageStatePath = 'storage-state/storageState.json';
 
 const config: PlaywrightTestConfig = {
+  reporter: 'html',
   use: {
     trace: 'retain-on-failure',
     headless: false,
